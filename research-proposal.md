@@ -67,23 +67,24 @@ My postdoctoral work will tackle the side-channel challenge from an OS vantage p
 <!-- \caption{Test}\label{table1} -->
 <!-- \end{wraptable}  -->
 
-\vspace{.4em}\noindent{}**Focus 2: Private data processing in cloud.** While CCC allows cloud users to trust in the cloud computation, it also faces a conflict of interest dilemma in private data processing workloads. Many cloud services are required by regulations like [the General Data Protection Regulation (GDPR)](https://gdpr-info.eu/) to handle data responsibly. This issue is demonstrated most vividly by machine learning in the cloud worloads (\autoref{table1}). On the one hand, the user want to be able to verify that the ML service is using their data responsibly; e.g., not leaking it to other parties. On the other hand, proving this requires an auditor to carefully scrutinize the training and inference code, which necessitates that the model owner disclose their proprietary business logic. 
+\vspace{.4em}\noindent{}**Focus 2: Private data processing in the cloud.** While CCC strengthen users' trust in cloud computing, it also faces a dilemma in private data processing workloads.
+This issue arise when a cloud user have security interest that is in conflict with the cloud service provider that some data processing service, e.g., personal health analytic or machine learning (\autoref{table1}). On the one hand, the user wants to verify that the ML service is using their data responsibly, e.g., not leaking the data to other parties. On the other hand, proving this requires an auditor to carefully scrutinize the private data processing code, which necessitates that the service provider to disclose their proprietary business logic. 
 
 \footnotesize
 
 | Stakeholder                    | Asset                        | Interest                                   | Untrusted party                 |
 | ------------------------------ | ---------------------------- | ------------------------------------------ | ------------------------------- |
-| Data owners & ML service users | Personal data                | Data is used responsibly | Model owners & Cloud providers  |
-| Model/ML services owners       | ML algorithms, model weights | Hide proprietary logic & ML model          | Service users & Cloud providers |
+| Cloud service users | Personal data                | Ensure data is used responsibly | Model owners & Cloud providers  |
+| Cloud services provider       | Proprietary bussiness logic |         Keep bussiness logic confidential  | Service users & Cloud providers |
 | Cloud providers                | Computing platform           | Monetize computation platform              | --                              |
 
-Table: Conflicts of interests in cloud machine learning. While CCC excludes cloud providers from the threat model, the conflicts persist. \label{table1}
+Table: Conflicts of interests in cloud data processing. While CCC excludes cloud providers from the threat model, the conflicts between service users and service providers persist. \label{table1}
 
 \normalsize
 
-Although much research tries to tackle this challenge, most fail to introduce a deployable solution applicable to many cloud programs. Resolving this issue would require an auditor to guarantee that the source code cannot leak without examining the source code itself. Most solutions enforce strict information flow control, e.g., requiring that the model owner must not write personal data to a file. State-of-the-art solutions like [PAVE]() and [Erebor](https://dl.acm.org/doi/pdf/10.1145/3689031.3717464) enforce this by placing the program inside a sandbox, constraining its actions, such as system calls, making them incompatible with many workloads.
+Although much research tries to tackle this challenge, most fail to introduce a deployable solution applicable to many cloud programs. Resolving this issue would require the system to guarantee that the data processing program cannot leak information without examining the source code itself. Most solutions enforce strict information flow control, e.g., requiring that the data processing program must not write personal data to a file. State-of-the-art solutions like [PAVE]() and [Erebor](https://dl.acm.org/doi/pdf/10.1145/3689031.3717464) enforce this by placing the program inside a sandbox, constraining its actions, such as system calls, making them incompatible with many workloads.
 
-I will tackle this problem from an OS-first perspective. Particularly, within the OS community, the practice of tracking whole-system provenance -- tracking the flow of information across all software layers -- is common. While existing systems prevent any potentially dangerous actions with the operating system, I aim to mitigate only the point at which sensitive data is about to be exported to the outside. For instance, almost all previous systems prevent the private data processing program from accessing the file system; a provenance-aware OS could permit file accesses, as long as it does not transmit the information outside.
+I will tackle this problem from an OS-first perspective. Particularly, within the OS community, the practice of tracking whole-system provenance -- tracking the flow of information across all software layers -- is common. While existing systems prevent any potentially dangerous actions with the operating system, I aim to mitigate only the point at which sensitive data is about to be exported to the outside. For instance, almost all previous systems prevent the private data processing program from accessing the file system; a provenance-aware solution could permit file accesses, as long as it does not transmit the information outside.
 
 \newpage
 
