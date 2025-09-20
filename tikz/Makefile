@@ -1,7 +1,7 @@
 # -------- Tools & opts --------
 OUTDIR    := build
 LATEXMK   := latexmk
-LATEX_OPTS:= -xelatex -shell-escape -halt-on-error -interaction=nonstopmode \
+LATEX_OPTS:= -xelatex -shell-escape -f -interaction=nonstopmode \
              -file-line-error -outdir=$(OUTDIR)
 
 CONVERT   := magick convert     # or: convert

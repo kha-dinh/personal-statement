@@ -11,6 +11,7 @@ indent: true
 number-sections: false
 header-includes:
   - \pagenumbering{gobble}
+  - \usepackage{lipsum}
   - \usepackage{booktabs,tablefootnote}
   - \usepackage{wrapfig}
   - |
@@ -50,38 +51,23 @@ A more practical, less intrusive approach is to mitigate these side-channel by t
 
 My postdoctoral work will tackle the side-channel challenge from an OS vantage point. The prototype introduced during my Doctoral studies has limited deployability, relying on a minimal OS. I aim to push this direction further by incorporating side-channel mitigation into the commodity Linux OS to support diverse cloud workloads. This direction especially synergizes with Aastha Mehta's profound experiences on side-channel attacks and defenses. Further, the work of userspace memory management by Margo Seltzer and Alexandra Fedorova will play an essential role in making the side-channel mitigation technique using memory management practical. The large TCB of commodity OSes also makes side-channel elimination particularly challenging -- it requires tracking potential side-channel leaks across millions of lines of code. To this end, the study of cross-system information flow tracking, pioneered by Margo Selter and Thomas Pasquier, makes it a tractable problem.
 
-\begin{wraptable}{r}{10cm}
-\vspace{-1em}
+
+\vspace{.4em}\noindent{}**Focus 2: Private data processing in the cloud.** While CCC strengthen users' trust in cloud computing, it also faces a dilemma in private data processing workloads.
+This issue arise when a cloud user have security interest that is in conflict with the cloud service provider that some data processing service, e.g., personal health analytic or machine learning (\autoref{table1}). On the one hand, the user wants to verify that the ML service is using their data responsibly, e.g., not leaking the data to other parties. On the other hand, proving this requires an auditor to carefully scrutinize the private data processing code, which necessitates that the service provider to disclose their proprietary business logic. 
+
 \footnotesize
-\centering
-\begin{tabular}{lp{2.5cm}p{3cm}}
-\toprule
-Stakeholder       & Sensitive Asset              & Interest                         \\
-\midrule
-Service users     & Personal data                & Ensure data confidentiality      \\
-Service providers & Proprietary business logic   & Keep business logic confidential \\
-\bottomrule
-\end{tabular}
-\caption{Private data processing stakeholders, assets and interests.}
-\label{table1}
-\end{wraptable}
 
-\vspace{.4em}\noindent{}**Focus 2: Private data processing.** A common scenario for CCC deployments is private data processing in the cloud that involve multiple stakeholders, as shown in \autoref{table1}. Take personal data analytic for example; users of services like 23andMe are required upload private data to the service server, which runs some health analytic program on the data nd returns the results to the user. On the one hand, the user wants to verify that the service provider is using their data responsibly; in other words, keep the data secret and does not leak it else where. On the other hand, to prove this, the service provider is required to publicize their data processing code for the user to verify, which might contain proprietary business logic. While CCC excludes cloud providers from the threat model, the conflicts between service users and providers persist.
+| Stakeholder                    | Asset                        | Interest                                   | Untrusted party                 |
+| ------------------------------ | ---------------------------- | ------------------------------------------ | ------------------------------- |
+| Service users | Personal data                | Ensure data confidentiality | Service providers & Platform providers  |
+| Service providers       | Proprietary business logic |         Keep business logic confidential  | Service users & Cloud providers |
+| Platform providers                | Computing platform           | Monetize computation platform              | --                              |
 
-<!-- \footnotesize -->
-<!---->
-<!-- | Stakeholder       | Sensitive Asset                      | Interest                         | -->
-<!-- | ----------------- | -------------------------- | -------------------------------- |  -->
-<!-- | Service users     | Personal data              | Ensure data confidentiality      | -->
-<!-- | Service providers | Proprietary business logic | Keep business logic confidential |  -->
-<!---->
-<!-- Table: Assets, interests of cloud data processing stakeholders. \label{table1} -->
-<!---->
-<!-- \normalsize -->
+Table: Conflicts of interests in cloud data processing. While CCC excludes cloud providers from the threat model, the conflicts between service users and service providers persist. \label{table1}
 
-\def\figwidth{5.4}\begin{wrapfigure}{l}{\figwidth cm} \vspace{-1em}\includegraphics[width=\figwidth cm]{./tikz/stakeholders.pdf} \caption{How CCC resolves stakeholders' conflicts with a mediator. } \end{wrapfigure}
+\normalsize
 
-Existing deployments employs a TEEs that functions as a mediator that is trusted by both service users and providers. The service provider first send the data processing program to the trusted mediatior, which verify that the program maintain data confidentiality. Because the users trust the mediator, they now send private data to the mediator, on which it will run the data processing program on. Still, most research prototypes fail to introduce a deployable solution applicable to many cloud programs. Most solutions enforce strict information flow control, e.g., requiring that the data processing program must not write personal data to a file. State-of-the-art solutions like [PAVE]() and [Erebor](https://dl.acm.org/doi/pdf/10.1145/3689031.3717464) enforce this by placing the program inside a sandbox, constraining its actions, such as system calls, making them incompatible with many workloads.
+Although much research tries to tackle this challenge, most fail to introduce a deployable solution applicable to many cloud programs. Resolving this issue would require the system to guarantee that the data processing program cannot leak information without examining the source code itself. Most solutions enforce strict information flow control, e.g., requiring that the data processing program must not write personal data to a file. State-of-the-art solutions like [PAVE]() and [Erebor](https://dl.acm.org/doi/pdf/10.1145/3689031.3717464) enforce this by placing the program inside a sandbox, constraining its actions, such as system calls, making them incompatible with many workloads.
 
 I will tackle this problem from an OS-first perspective. Particularly, within the OS community, the practice of tracking whole-system provenance -- tracking the flow of information across all software layers -- is common. While existing systems prevent any potentially dangerous actions with the operating system, I aim to mitigate only the point at which sensitive data is about to be exported to the outside. For instance, almost all previous systems prevent the private data processing program from accessing the file system; a provenance-aware solution could permit file accesses, as long as it does not transmit the information outside.
 

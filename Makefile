@@ -11,13 +11,14 @@ MD_FILES := $(wildcard *.md)
 PDF_FILES := $(patsubst %.md,output/%.pdf,$(MD_FILES))
 
 FIGURES := $(wildcard tikz/*.pdf)
+FIGURE_SRC := $(wildcard tikz/*.tex)
 
 # Default target: build all PDFs into output/
-all: tikz   $(PDF_FILES)
+all: $(FIGURES)  $(PDF_FILES)
 
 
 
-tikz:
+$(FIGURES):  $(FIGURE_SRC)
 	$(MAKE) -C ./tikz
 
 # Rule: compile markdown into PDFs inside output/
