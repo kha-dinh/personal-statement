@@ -46,13 +46,13 @@
 % Left column (three stacked boxes)
 
 \node[box, minimum width=2.5 cm, minimum height=\rowH cm,  fill=white, anchor=north west]
-(APP) at ([xshift=\pad cm, yshift=-.7 cm]TEE.north west) {Data Processing\\Application};
+(APP) at ([xshift=\pad cm, yshift=-.7 cm]TEE.north west) {Data Processing\\Program};
 
 \node[box, densely dashed, minimum width=3.1 cm, minimum height=1.4 cm, anchor=center, line width=1.2pt, draw=blue]
 (BOX) at ([]APP.center){};
 
 \node[box, minimum width=1.8 cm, minimum height=\rowH cm, draw=red!70,line width=1pt, anchor=north east, fill=white]
-  (SD) at ([xshift= -\pad cm,yshift=-.7 cm]TEE.north east) {Sensitive\\Data};
+  (SD) at ([xshift= -\pad cm,yshift=-.7 cm]TEE.north east) {Personal\\Data};
 
 \node[box, minimum width=1.8 cm, minimum height=\rowH cm, anchor=south, fill=white,draw=blue]
   (M) at ([xshift=.0cm, yshift=\pad cm]TEE.south) {Trusted\\Mediator};

@@ -4,7 +4,7 @@
 
 \begin{document}
 \begin{tikzpicture}[
-    font=\sffamily\small,
+    font=\sffamily,
     teeBlue/.style={fill=blue!10,draw=blue!60,thick,rounded corners=2pt},
     box/.style    ={draw=black!70,rounded corners=2pt,thick,align=center},
     lbl/.style    ={font=\sffamily\bfseries},
@@ -23,9 +23,9 @@
 }
 
 % ---------- Parameters (all unit-less, treated as cm later) ----------
-\def\W{9.0}    % total width
+\def\W{8.6}    % total width
 \def\Htop{3.8}  % TEE height
-\def\Hbot{2.8}  % platform height
+\def\Hbot{2.5}  % platform height
 \def\gap{0.5}   % vertical gap
 \def\pad{0.4}   % inner padding
 
@@ -44,10 +44,10 @@
 
 % Left column (three stacked boxes)
 \node[box, minimum width=2 cm, minimum height=\rowH cm, draw=red!70,line width=1pt, anchor=north west, fill=white]
-  (SD) at ([xshift=0.7cm,yshift=-0.9cm]TEE.north west) {Sensitive\\Data};
+  (SD) at ([xshift=\pad cm,yshift=-0.9cm]TEE.north west) {Sensitive\\Data};
 \node[box, minimum width=2 cm, minimum height=\rowH cm,  fill=white, anchor=west]
 (APP) at ([xshift=\pad cm]SD.east) {Customer\\Application};
-\node[box, minimum width=5 cm, minimum height=\rowH cm, anchor=north, fill=white]
+\node[box, minimum width=4 cm, minimum height=\rowH cm, anchor=north, fill=white]
   (OS) at ([xshift=.3cm, yshift=-0.25cm]SD.south east) {Operating System};
 
 % Right region: Encrypted Memory
@@ -62,25 +62,26 @@
 \node[anchor=south, lbl] at ([yshift=2pt]PLAT.south) {Untrusted Cloud Platform};
 
 % VMM (left)
-\node[box, fill=white, minimum width=5.0cm, minimum height=1.8cm, anchor=north west]
-      (VMM) at ([xshift=\pad cm,yshift=-\pad cm]PLAT.north west) {Virtual Machine\\Manager};
+\node[box, fill=white, minimum width=4cm, minimum height=\rowH cm, anchor=north]
+      (VMM) at ([xshift=.0 cm,yshift=-1.2 cm]OS.south) {Virtual Machine\\Manager};
 
-% Trusted CPU Features (right)
-\node[box, fill=blue!5, minimum width=3 cm, minimum height=1.8cm,
-      anchor=north east, draw=blue!60, thick]
-      (CPU) at ([xshift=-\pad cm,yshift=-\pad cm]PLAT.north east) {Trusted CPU\\Features};
+% Trusted CPU Features  + padlock
+\node[box, fill=blue!5, minimum width=2.7 cm, minimum height=\rowH cm,
+      anchor=west, draw=blue!60, thick]
+      (CPU) at ([xshift=\pad cm,yshift=0 cm]VMM.east) {Trusted CPU\\Features};
+
+\pic at ([xshift=2 pt,yshift=4pt]CPU.north east) {padlock};
 
 
 % ---------- Hardware Interfaces (double arrow & label) ----------
 \path let \p1 = (OS.south), \p2 = (VMM.north) 
 	in node (mid) at ($(\p1)!.5!(\p2)$) {};
-\draw[arrow] ($(mid)+(0,0.80)$) -- ($(mid)+(0,0.20)$);
-\draw[arrow] ($(mid)+(0,-0.80)$) -- ($(mid)+(0,-0.20)$);
+\draw[arrow] (OS) -- ($(mid)+(0,0.20)$);
+\draw[arrow] (VMM) -- ($(mid)+(0,-0.20)$);
 \node[fill=white, inner sep=1.6pt, draw=black!50, rounded corners=2pt] at (mid) {Hardware Interfaces};
 
 % Padlocks
 \pic at ([xshift=-12pt,yshift=20pt]ENC.north east) {padlock};
-\pic at ([xshift=0pt,yshift=4pt]CPU.north east) {padlock};
 
 \end{tikzpicture}
 \end{document}

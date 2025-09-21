@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  21 SEP 2025 11:53
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  21 SEP 2025 09:44
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**stakeholders.tex
-(./stakeholders.tex
+**cvm.tex
+(./cvm.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/local/texlive/2025/texmf-dist/tex/latex/standalone/standalone.cls
@@ -383,38 +383,6 @@ s/tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibraryautomata.code.tex
-File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibraryshapes.multipart.code.tex
-File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
-shapes.multipart.code.tex
-File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodepartlowerbox=\box64
-\pgfnodeparttwobox=\box65
-\pgfnodepartthreebox=\box66
-\pgfnodepartfourbox=\box67
-\pgfnodeparttwentybox=\box68
-\pgfnodepartnineteenbox=\box69
-\pgfnodeparteighteenbox=\box70
-\pgfnodepartseventeenbox=\box71
-\pgfnodepartsixteenbox=\box72
-\pgfnodepartfifteenbox=\box73
-\pgfnodepartfourteenbox=\box74
-\pgfnodepartthirteenbox=\box75
-\pgfnodeparttwelvebox=\box76
-\pgfnodepartelevenbox=\box77
-\pgfnodeparttenbox=\box78
-\pgfnodepartninebox=\box79
-\pgfnodeparteightbox=\box80
-\pgfnodepartsevenbox=\box81
-\pgfnodepartsixbox=\box82
-\pgfnodepartfivebox=\box83
-)))
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryfit.code.tex
 File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -430,19 +398,15 @@ File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
 s/tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
-s/tikzlibraryquotes.code.tex
-File: tikzlibraryquotes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
 \g__graphics_track_int=\count291
-\l__pdf_internal_box=\box84
+\l__pdf_internal_box=\box64
 \g__pdf_backend_annotation_int=\count292
 \g__pdf_backend_link_int=\count293
 )
-(build/stakeholders.aux)
-\openout1 = `stakeholders.aux'.
+(build/cvm.aux)
+\openout1 = `cvm.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
@@ -467,19 +431,19 @@ ex-text;!
 
 [1
 
-] (build/stakeholders.aux)
+] (build/cvm.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 13193 strings out of 473832
- 290487 string characters out of 5729482
- 671261 words of memory out of 5000000
- 36045 multiletter control sequences out of 15000+600000
- 558877 words of font info for 41 fonts, out of 8000000 for 9000
+ 12613 strings out of 473832
+ 269442 string characters out of 5729482
+ 637572 words of memory out of 5000000
+ 35480 multiletter control sequences out of 15000+600000
+ 558869 words of font info for 40 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 117i,7n,121p,423b,844s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,7n,121p,414b,784s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on build/stakeholders.xdv (1 page, 16968 bytes).
+Output written on build/cvm.xdv (1 page, 15592 bytes).

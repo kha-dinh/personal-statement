@@ -14,9 +14,9 @@ FIGURES := $(wildcard tikz/*.pdf)
 FIGURE_SRC := $(wildcard tikz/*.tex)
 
 # Default target: build all PDFs into output/
-all: $(FIGURES)  $(PDF_FILES)
+all: $(PDF_FILES)
 
-
+$(PDF_FILES): $(FIGURES)
 
 $(FIGURES):  $(FIGURE_SRC)
 	$(MAKE) -C ./tikz
