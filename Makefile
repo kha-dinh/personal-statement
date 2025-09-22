@@ -2,8 +2,6 @@ PANDOC = pandoc
 # FILTER = --filter pandoc-crossref
 # FILTER = --filter pandoc-crossref
 TEMPLATE = ./template.latex
-CSL = ../../../../support/acm-sig-proceedings.csl
-BIB = ../../../../sslab.bib
 ENGINE = xelatex
 
 # Collect all Markdown files
@@ -29,12 +27,10 @@ output/%.pdf: %.md
 	  $(PANDOC_FLAGS) \
 	  --output=$@ \
 	  --pdf-engine=$(ENGINE) \
-	  --citeproc \
-	  --csl=$(CSL) \
-	  --number-sections \
-	  --bibliography=$(BIB)
+	  --number-sections 
 
 clean:
 	rm -f output/*.pdf
+
 
 .PHONY: clean watch tikz
