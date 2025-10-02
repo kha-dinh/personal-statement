@@ -20,7 +20,7 @@ $(FIGURES):  $(FIGURE_SRC)
 	$(MAKE) -C ./tikz
 
 # Rule: compile markdown into PDFs inside output/
-output/%.pdf: %.md  
+output/%.pdf: %.md $(FIGURE_SRC)
 	@mkdir -p output
 	$(PANDOC) $< \
 	  $(FILTER) \

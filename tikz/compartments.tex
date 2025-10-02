@@ -1,0 +1,186 @@
+\documentclass[tikz,border=6pt,12pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.symbols,matrix,positioning,automata,fit,arrows.meta,calc,quotes}
+
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    teeBlue/.style={fill=blue!10,draw=blue!60,thick,rounded corners=2pt},
+    box/.style    ={draw=black!70,rounded corners=2pt,thick,align=center},
+    lbl/.style    ={font=\sffamily\bfseries},
+    it/.style    ={font=\sffamily\itshape},
+    arrow/.style  ={->,>={Stealth[length=3mm,width=2mm]},thick},
+]
+
+\tikzset{
+  pics/padlock/.style={
+    code={
+      \draw[line width=2pt,draw=blue!60]
+        (-0.15,0) arc (180:0:0.15 and 0.1) -- ++(0,-0.2) -- ++(-0.3,0) -- cycle;
+      \draw[line width=1pt,fill=blue!40,draw=blue!60]
+        (-0.25,-0.2) rectangle (0.25,-0.6);
+    }
+  }
+}
+
+% ---------- Parameters (all unit-less, treated as cm later) ----------
+\def\W{7.0}    % total width
+\def\Htop{4.1}  % TEE height
+\def\Hbot{2.8}  % platform height
+\def\gap{0. }   % vertical gap
+\def\pad{0.2}   % inner padding
+
+\def\leftW{4.7} % left column width inside TEE
+\def\rowH{1.2}  % row height for left-column boxes
+
+% Derived widths (unit-less numbers)
+\pgfmathsetmacro{\cpuW}{\W - 7.2 - 2*\pad - 0.5}
+
+% ---------- Top: VM-Level TEE ----------
+\node[teeBlue, minimum width=\W cm, minimum height=5.5 cm, anchor=north west] (TEE) at (0,0) {};
+
+\node[anchor=north, lbl, anchor=north east]
+	at ([xshift=0pt,yshift=0pt]TEE.north east) {TEE};
+\node[anchor=north east, xshift=-10pt,yshift=-10pt] at (TEE.north east) {\large 🔒};
+
+
+% Left column (three stacked boxes)
+
+% \node[box, minimum width=6.5 cm, minimum height=1.0 cm,text depth = 1 cm, draw=none, fill=none, anchor=north]
+% (APP) at ([yshift=-.4 cm]TEE.north) {Sensitive Programs};
+\node[box, minimum width=6.5 cm, minimum height = 3.6 cm, fill=white, anchor=south,lbl]
+(OS) at ([yshift=.2 cm]TEE.south) {};
+
+
+
+\def\comW{2}
+\node[box, minimum width=\comW cm, fill=white!20, anchor=south ]
+(ComB) at ([yshift=.4 cm] OS.north){App B};
+\node[box, minimum width=\comW cm, fill=white!20, anchor=east ]
+(ComA) at ([xshift=-.2 cm] ComB.west){App A};
+\node[box, draw=red,minimum width=\comW cm, fill=white!20, anchor=west ]
+(ComC) at ([xshift=.2 cm] ComB.east){App C};
+
+\node[minimum width=3 cm, anchor=south ]
+(APP) at (ComB.north){In-TEE Applications};
+%
+% \draw[thick,dashed] (APP) -- (ComA);
+% \draw[thick,dashed] (APP) -- (ComC);
+% \draw[thick,dashed] (APP) -- (ComB);
+
+
+% \node[box, minimum width=.2 cm, minimum height=.7 cm, fill=red!20, anchor=south]
+% (GateA) at ([yshift=-.6 cm] ComA.south){};
+
+
+% Resources
+%
+
+\node[box, minimum width=2.7 cm,text height= 1.1 cm,minimum height=1.5 cm  , fill=yellow!20, anchor=north west ]
+(Comm) at ([xshift=.2 cm, yshift=-0.2cm] OS.north west){communication};
+\node[box, minimum width=3.2 cm,text height= 1.1 cm, minimum height=1.5 cm , fill=red!20, anchor=north east ]
+(Storage) at ([xshift=-.2 cm, yshift=-.2cm] OS.north east){storage};
+\node[box, minimum width=3.2 cm,text height= 1.1 cm, minimum height=1.5 cm , fill=green!20, anchor=south east ]
+(Other) at ([xshift=-.2 cm, yshift=.2cm] OS.south east){other components};
+
+
+\def\resW{0.5}
+\def\resH{0.7}
+\node[box, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=south ]
+(CommResA) at ([yshift=.6 cm, xshift=-1cm] Comm.south){};
+\node[box, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=west ]
+(CommResB) at ([xshift=0.2 cm]CommResA.east){};
+\node[box, draw=red, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=west ]
+(CommResC) at ([xshift=0.2 cm]CommResB.east){};
+
+
+\node[box, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=south ]
+(StorResA) at ([yshift=.6 cm, xshift=-1.2cm] Storage.south){};
+\node[box,draw=red, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=west ]
+(StorResB) at ([xshift=0.2 cm]StorResA.east){};
+
+\node[box, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=west,draw=red,font=\scriptsize\sffamily]
+(StorResC) at ([xshift=0.2 cm]StorResB.east){Sensitive\\Data};
+
+\node[box,draw=red, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=south ]
+(OtherA) at ([yshift=.6 cm, xshift=-1.2cm] Other.south){};
+\node[box, minimum width= \resW cm, minimum height= \resH cm, fill=gray!20, anchor=west ]
+(OtherB) at ([xshift=0.2 cm]OtherA.east){};
+
+
+\node[anchor=south west, align=right,lbl] at ([yshift=0cm]OS.south west){OS};
+
+
+\draw[arrow,color=blue] (ComA) -- (CommResA) -- (ComB);
+
+\draw[arrow,color=blue] (StorResA) -- (ComB);
+
+
+\draw[arrow,color=red, densely dashed]
+(StorResC) -- (OtherA) -- (StorResB) --
+(ComC) --  (CommResC) -- ++(-0cm,-2.8cm) node[midway,text width=1.8cm, xshift=-1cm,align=right, yshift=-.2cm,font=\scriptsize\sffamily]{exfiltration detected};
+;
+
+\node[box, fill=white,]
+(Out) at ([yshift=-.2cm]OS.south){external communication};
+
+% \draw[arrow,color=blue]
+% (CommResB)++(-0cm,-2cm) -- (CommResB) -- (ComB);
+
+% \draw[arrow,color=blue] (ComB) -- (StorResB);
+
+
+
+
+
+% \node[box, minimum width=4 cm, minimum height=\rowH cm,  fill=white, anchor=north]
+% (APP) at ([xshift=\pad cm, yshift=-.7 cm]TEE.north) {Data Processing Program};
+
+
+
+
+% \node[box, densely dashed, minimum width=3.1 cm, minimum height=1.4 cm, anchor=center, line width=1.2pt, draw=blue]
+% (BOX) at ([]APP.center){};
+%
+% \node[box, minimum width=1.8 cm, minimum height=\rowH cm, draw=red!70,line width=1pt, anchor=north east, fill=white]
+%   (SD) at ([xshift= -\pad cm,yshift=-.7 cm]TEE.north east) {Personal\\Data};
+%
+% \node[box, minimum width=1.8 cm, minimum height=\rowH cm, anchor=south, fill=white,draw=blue]
+%   (M) at ([xshift=.0cm, yshift=\pad cm]TEE.south) {Trusted\\Mediator};
+
+
+% ---------- Bottom: Untrusted Cloud Platform ----------
+
+% VMM (left)
+% \node[box, fill=white, minimum width=2.5cm, minimum height=\rowH cm, anchor=north]
+%       (SP) at ([xshift=0 cm,yshift=-3 cm]APP.south) {Service\\Provider};
+%
+% % Trusted CPU Features (right)
+% \node[box, fill=white, minimum width=1.8cm, minimum height=\rowH cm, anchor=north]
+%       (SU) at ([xshift=0 cm,yshift=-3 cm]SD.south) {Service\\User};
+%
+%
+%     % \draw[arrow] (SP) -- node [] {Provides} -- (APP)  ;
+% % \path[arrow] 
+% 	% (SP) edge["provides"] (APP)
+% 	% (SU) edge["provides"] (SD)
+% 	% (M) edge["prevent leaks" swap] (APP)
+% 	% (APP) edge["process" ] (SD)
+% 	% (SU) edge["trust"] (M)
+% 	% (SP) edge["trust" swap] (M)
+% 	% ;
+% \draw[arrow,color=blue, densely dashed] (M) -- (BOX) 
+% 	node[midway,right,text width=2.5cm,align=right,yshift=.1cm,xshift=-.6cm]{prevents data leaks};
+% \draw[arrow,dotted] (SP) -- (APP) node[midway,sloped,above]{provides};
+% \draw[arrow,dotted] (SU) -- (SD) node[midway,sloped,above]{provides};
+% \draw[arrow,<->] (APP) -- (SD) node[midway, above]{process};
+% \draw[arrow,draw=blue] (SU) -- (M) node[midway,below,sloped]{trust};
+% \draw[arrow,draw=blue] (SP) -- (M) node[midway,below,sloped]{trust};
+% \draw[arrow,<->,draw=red] (SP) -- (SU) node[midway,below,sloped]{distrusting} -- (SP);
+% Padlocks
+% \pic at ([xshift=-12pt,yshift=20pt]ENC.north east) {padlock};
+% \pic at ([xshift=0pt,yshift=4pt]CPU.north east) {padlock};
+
+\end{tikzpicture}
+\end{document}
