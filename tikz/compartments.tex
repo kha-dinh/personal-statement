@@ -1,7 +1,6 @@
 \documentclass[tikz,border=6pt,12pt]{standalone}
 \usepackage{tikz}
-\usetikzlibrary{shapes.symbols,matrix,positioning,automata,fit,arrows.meta,calc,quotes}
-
+\usetikzlibrary{shapes.symbols,matrix,positioning,automata,fit,arrows.meta,calc,quotes, bending}
 
 \begin{document}
 \begin{tikzpicture}[
@@ -84,6 +83,9 @@
 \node[box, minimum width=3.2 cm,text height= 1.1 cm, minimum height=1.5 cm , fill=green!20, anchor=south east ]
 (Other) at ([xshift=-.2 cm, yshift=.2cm] OS.south east){other components};
 
+\node[box, minimum width=2.7 cm, text width=2.2 cm,minimum height=1.2 cm, fill=blue!30,draw=blue, anchor=south west ]
+(gate) at ([xshift=.2 cm, yshift=0.5cm] OS.south west){information flow gateway};
+
 
 \def\resW{0.5}
 \def\resH{0.7}
@@ -109,21 +111,30 @@
 (OtherB) at ([xshift=0.2 cm]OtherA.east){};
 
 
+
 \node[anchor=south west, align=right,lbl] at ([yshift=0cm]OS.south west){OS};
 
 
-\draw[arrow,color=blue] (ComA) -- (CommResA) -- (ComB);
+\draw[arrow,color=blue] (ComA) -- (CommResA) edge [bend left=10]  (ComB);
 
 \draw[arrow,color=blue] (StorResA) -- (ComB);
+\node[box, fill=white]
+(Out) at ([yshift=-.2cm]OS.south){external communication};
 
 
-\draw[arrow,color=red, densely dashed]
+\draw[arrow,color=blue]
+	(ComA) -- (CommResB) -- ++(0cm, -2.8cm)
+node[midway, xshift=.3cm,align=right, yshift=-1cm,font=\scriptsize\sffamily]{ok}
+	;
+
+\draw[arrow,>={Rays[length=10pt]},color=red, densely dashed]
 (StorResC) -- (OtherA) -- (StorResB) --
-(ComC) --  (CommResC) -- ++(-0cm,-2.8cm) node[midway,text width=1.8cm, xshift=-1cm,align=right, yshift=-.2cm,font=\scriptsize\sffamily]{exfiltration detected};
+(ComC) --  (CommResC)
+% -- (Out)
+-- ++(-0cm,-2.8cm) node[midway,xshift=.7cm,align=right, yshift=-1cm,font=\scriptsize\sffamily]{blocked};
 ;
 
-\node[box, fill=white,]
-(Out) at ([yshift=-.2cm]OS.south){external communication};
+
 
 % \draw[arrow,color=blue]
 % (CommResB)++(-0cm,-2cm) -- (CommResB) -- (ComB);
